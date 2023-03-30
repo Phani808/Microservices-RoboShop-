@@ -2,26 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb
-  labels:
-    name: mongodb
-    tier: db
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: mongodb
+      name: mongodb
+      tier: db
+  replicas: 1
   template:
     metadata:
       labels:
-        app: mongodb
+        name: mongodb
+        tier: db
     spec:
       containers:
-        - name: mongodb
-          imagePullPolicy: Always
-          image: phani997/mongodb:k1
-          ports:
-            - containerPort: 27017
-
+      - name: mongodb
+        image: phani997/mongodb:k1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 27017
+      restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
@@ -41,42 +40,41 @@ kind: ConfigMap
 metadata:
   name: catalogue-config
 data:
-  MONGO_URL: "mongodb"
-
+  MONGO_URL: "mongodb://mongodb:27017/catalogue"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: catalogue
-  labels:
-    name: catalogue
-    tier: app
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: catalogue
+      name: catalogue
+      tier: app
+  replicas: 1
   template:
     metadata:
       labels:
-        app: catalogue
+        name: catalogue
+        tier: app
     spec:
       containers:
-        - name: catalogue
-          imagePullPolicy: Always
-          image: phani997/catalouge:k1
-          envFrom:
-            - configMapRef:
-                name: catalogue-config
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "100m"
-              memory: "128Mi"
-         
-
+      - name: catalogue
+        image: phani997/catalouge:k1
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: catalogue-config
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+        ports:
+        - containerPort: 8080
+      restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
