@@ -477,7 +477,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: phani997/web:k1
+          image: phani997/web:v1
           imagePullPolicy: Always
           ports:
             - containerPort: 80
