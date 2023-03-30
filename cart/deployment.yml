@@ -11,7 +11,7 @@ kind: Deployment
 metadata:
   name: cart
   labels:
-    name: cart
+    app: cart
     tier: app
 spec:
   replicas: 1
@@ -45,7 +45,7 @@ metadata:
   name: cart
 spec:
   selector:
-    name: cart
+    app: cart
     tier: app
   ports:
     - protocol: TCP
