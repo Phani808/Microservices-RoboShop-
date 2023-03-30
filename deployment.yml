@@ -479,7 +479,8 @@ spec:
         - name: web
           imagePullPolicy: Always
           image: phani997/web:k1
-         
+      ports:
+      - containerPort: 80 
 ---
 apiVersion: v1
 kind: Service
