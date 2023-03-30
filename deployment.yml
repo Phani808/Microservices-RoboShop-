@@ -76,13 +76,22 @@ spec:
         - name: mysql
           imagePullPolicy: Always
           image: phani997/mysql:k1
-          envFrom:
-          - configMapRef:
-              name: mysql-config
-          - secretRef:
-              name: mysql-secret
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
           ports:
             - containerPort: 3306
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
+
 
 ---
 apiVersion: v1
@@ -212,15 +221,16 @@ spec:
           envFrom:
             - configMapRef:
                 name: catalogue-config
-      resources:
-        requests:
-        cpu: "100m"
-        memory: "128Mi"
-      limits:
-        cpu: "100m"
-        memory: "128Mi"
-        ports:
-          - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+          ports:
+            - containerPort: 8080
+
 ---
 apiVersion: v1
 kind: Service
@@ -268,15 +278,15 @@ spec:
           envFrom:
             - configMapRef:
                 name: cart-config
-      resources:
-        requests:
-        cpu: "100m"
-        memory: "128Mi"
-      limits:
-        cpu: "100m"
-        memory: "128Mi"
-        ports:
-          - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+          ports:
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -325,15 +335,15 @@ spec:
           envFrom:
             - configMapRef:
                 name: payment-config
-      resources:
-        requests:
-        cpu: "100m"
-        memory: "128Mi"
-      limits:
-        cpu: "100m"
-        memory: "128Mi"
-        ports:
-          - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+          ports:
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -372,24 +382,24 @@ spec:
   template:
     metadata:
       labels:
-        app: shippingt
+        app: shipping
     spec:
       containers:
-        - name: payment
+        - name: shipping
           imagePullPolicy: Always
           image: phani997/shipping:k1
           envFrom:
             - configMapRef:
                 name: shipping-config
-      resources:
-        requests:
-        cpu: "100m"
-        memory: "128Mi"
-      limits:
-        cpu: "100m"
-        memory: "128Mi"
-        ports:
-          - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+          ports:
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -437,15 +447,15 @@ spec:
           envFrom:
             - configMapRef:
                 name: user-config
-      resources:
-        requests:
-        cpu: "100m"
-        memory: "128Mi"
-      limits:
-        cpu: "100m"
-        memory: "128Mi"
-        ports:
-          - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+          ports:
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
