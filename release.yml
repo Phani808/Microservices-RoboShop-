@@ -58,7 +58,6 @@ spec:
         name: catalogue
         tier: app
     spec:
-      hostname: catalogue
       containers:
       - name: catalogue
         image: phani997/catalouge:k1
@@ -76,6 +75,7 @@ spec:
         ports:
         - containerPort: 8080
       restartPolicy: Always
+      hostname: catalogue
        
       
 ---
