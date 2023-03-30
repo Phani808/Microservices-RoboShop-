@@ -76,21 +76,14 @@ spec:
         - name: mysql
           imagePullPolicy: Always
           image: phani997/mysql:k1
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: password
+          envFrom:
+          - configMapRef:
+               name: mysql-config
+          - secretRef:
+               name: mysql-secret
           ports:
             - containerPort: 3306
-          volumeMounts:
-            - name: mysql-persistent-storage
-              mountPath: /var/lib/mysql
-      volumes:
-        - name: mysql-persistent-storage
-          persistentVolumeClaim:
-            claimName: mysql-pv-claim
+          
 
 
 ---
