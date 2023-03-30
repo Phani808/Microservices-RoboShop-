@@ -41,7 +41,7 @@ kind: ConfigMap
 metadata:
   name: catalogue-config
 data:
-  MONGO_URL: "mongodb://mongodb:27017/catalogue"
+  MONGO_URL: "mongodb"
 
 ---
 apiVersion: apps/v1
