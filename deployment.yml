@@ -324,7 +324,7 @@ spec:
       containers:
         - name: payment
           imagePullPolicy: Always
-          image: phani997/payment:k1
+          image: phani997/payment:latest
           envFrom:
             - configMapRef:
                 name: payment-config
