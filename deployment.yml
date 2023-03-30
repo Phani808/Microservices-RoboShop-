@@ -76,6 +76,11 @@ spec:
         - name: mysql
           imagePullPolicy: Always
           image: phani997/mysql:k1
+          envFrom:
+          - configMapRef:
+              name: mysql-config
+          - secretRef:
+              name: mysql-secret
           ports:
             - containerPort: 3306
 
