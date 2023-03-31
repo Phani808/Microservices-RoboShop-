@@ -10,18 +10,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cart
-  labels:
-    app: cart
-    tier: app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cart
+      name: cart
+      tier: app
   template:
     metadata:
       labels:
-        app: cart
+        name: cart
+        tier: app
     spec:
       containers:
         - name: cart
@@ -45,7 +44,7 @@ metadata:
   name: cart
 spec:
   selector:
-    app: cart
+    name: cart
     tier: app
   ports:
     - protocol: TCP

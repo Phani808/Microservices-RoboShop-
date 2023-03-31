@@ -10,34 +10,34 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: shipping
-  labels:
-    name: shipping
-    tier: app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: shipping
+      name: shipping
+      tier: app
   template:
     metadata:
       labels:
-        app: shipping
+        name: shipping
+        tier: app
     spec:
       containers:
-        - name: shipping
-          imagePullPolicy: Always
-          image: phani997/shipping:k1
-          envFrom:
-            - configMapRef:
-                name: shipping-config
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "100m"
-              memory: "128Mi"
-        
+      - name: shipping
+        image: phani997/shipping:k1
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: shipping-config
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "200m"
+            memory: "512Mi"
+        ports:
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -48,6 +48,7 @@ spec:
     name: shipping
     tier: app
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
